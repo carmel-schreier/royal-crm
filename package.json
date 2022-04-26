@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/carmel-schreier/royal-crm/issues"
   },
-  "homepage": "https://github.com/carmel-schreier/royal-crm#readme"
+  "homepage": "https://github.com/carmel-schreier/royal-crm#readme",
+  "dependencies": {
+    "express": "^4.18.0"
+  }
 }
