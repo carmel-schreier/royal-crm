@@ -21,11 +21,11 @@ router.get('/', function (req, res, next) {
 
 //router.get('/', function (req, res, next) {
 //  // res.send('hello again');
-//  ordersModule.addOrder('2022-05-08 12:31:30', 123, 75, 400.56, 67);
+//  ordersModule.addOrder(123, 75, 400.56, 67);
 //  ordersModule.ordersList(req, res);
 //});
 
 module.exports = router;
 
 
-//SET DEFULT=royal-crm:* & npm start
+//SET DEBUG=royal-crm:* & npm start
