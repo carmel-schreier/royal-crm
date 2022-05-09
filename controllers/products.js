@@ -1,15 +1,4 @@
-const mysql = require('mysql2');
-const config = require('../config/dev');
-
-const pool = mysql.createPool({
-    host: config.DB_HOST,
-    user: config.DB_USER,
-    password: config.DB_PASSWORD,
-    database: config.DB_DATABASE,
-    waitForConnections: true,
-    connectionLimit: 5,
-    queueLimit: 0
-});
+const database = require('./database');
 
 module.exports = {
     addProduct: function (name, desc, price) {
@@ -17,7 +6,7 @@ module.exports = {
             throw ('ERROR: name is empty');
         }
 
-        pool.getConnection(function (connErr, connection) {
+        database.pool.getConnection(function (connErr, connection) {
             if (connErr) throw connErr; // not connected!
 
             const sql = "INSERT INTO products(name, description, price)" +
@@ -34,17 +23,28 @@ module.exports = {
         });
     },
 
-    productsList: function (req, res) {
-        pool.getConnection(function (connErr, connection) {
-            if (connErr) throw connErr; // not connected!
+    productsList: async function (req, res) {
 
-            const sql = "SELECT * FROM products";
+        const sql = "SELECT * FROM products";
 
-            connection.query(sql, function (sqlErr, result, fields) {
-                if (sqlErr) throw sqlErr;
+        try {
+            const connection = await database.getConnection();
+            const result = await database.runQuery(connection, sql);
+            res.send(result);
+        } catch (err) {
+            console.log(err);
+        }
 
-                res.send(result);
-            });
-        });
+        // database.pool.getConnection(function (connErr, connection) {
+        //     if (connErr) throw connErr; // not connected!
+        //
+        //     const sql = "SELECT * FROM products";
+        //
+        //     connection.query(sql, function (sqlErr, result, fields) {
+        //         if (sqlErr) throw sqlErr;
+        //
+        //         res.send(result);
+        //     });
+        // });
     }
 }

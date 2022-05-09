@@ -1,15 +1,4 @@
-const mysql = require('mysql2');
-const config = require('../config/dev');
-
-const pool = mysql.createPool({
-    host: config.DB_HOST,
-    user: config.DB_USER,
-    password: config.DB_PASSWORD,
-    database: config.DB_DATABASE,
-    waitForConnections: true,
-    connectionLimit: 5,
-    queueLimit: 0
-});
+const database = require('./database');
 
 module.exports = {
     // list: [],
@@ -22,7 +11,7 @@ module.exports = {
         }
 
 
-        pool.getConnection(function (connErr, connection) {
+        database.pool.getConnection(function (connErr, connection) {
             if (connErr) throw connErr; // not connected!
 
 
@@ -40,22 +29,36 @@ module.exports = {
         });
     },
 
-    customersList: function (req, res) {
-        // this.list.forEach(customer => {
-        //     console.log(`ok. name: ${customer.name} was created.`);
-        // })
+    customersList: async function (req, res) {
+        const sql = "SELECT customers.name,customers.phone,customers.email,countries.name AS country FROM customers INNER JOIN countries ON countries.id = customers.country_id ORDER BY customers.name;";
 
-        pool.getConnection(function (connErr, connection) {
-            if (connErr) throw connErr; // not connected!
+        try {
+            const connection = await database.getConnection();
+            const result = await database.runQuery(connection, sql);
+            res.send(result);
+        } catch (err) {
+            console.log(err);
+        }
 
-            const sql = "SELECT customers.name,customers.phone,customers.email,countries.name AS country FROM customers INNER JOIN countries ON countries.id = customers.country_id;";
+        // customersList: function (req, res) {
+        //     const sql = "SELECT * FROM customers";
+        //
+        //     database.getConnection()
+        //         .then(connection => database.runQuery(connection, sql))
+        //         .then(result => res.send(result))
+        //         .catch(err => console.log(err));
+        //
+        //
+        // database.pool.getConnection(function (connErr, connection) {
+        //     if (connErr) throw connErr; // not connected!
 
+        //     const sql = "SELECT * FROM customers";
 
-            connection.query(sql, function (sqlErr, result, fields) {
-                if (sqlErr) throw sqlErr;
+        //     connection.query(sql, function (sqlErr, result, fields) {
+        //         if (sqlErr) throw sqlErr;
 
-                res.send(result);
-            });
-        });
+        //         res.send(result);
+        //     });
+        // });
     }
 }

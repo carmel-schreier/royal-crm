@@ -1,32 +1,22 @@
-const mysql = require('mysql2');
-const config = require('../config/dev');
+const database = require('./database');
 
-const pool = mysql.createPool({
-    host: config.DB_HOST,
-    user: config.DB_USER,
-    password: config.DB_PASSWORD,
-    database: config.DB_DATABASE,
-    waitForConnections: true,
-    connectionLimit: 5,
-    queueLimit: 0
-});
 
 module.exports = {
 
-    addOrder: function (name, desc, price) {
-        if (!name || name.length === 0) {
+    addOrder: function (customer_id, product_id, price, quantity) {
+        if (!quantity || quantity.length === 0) {
             throw ('ERROR: name is empty');
         }
 
-        pool.getConnection(function (connErr, connection) {
+        database.pool.getConnection(function (connErr, connection) {
             if (connErr) throw connErr; // not connected!
 
-            const sql = "INSERT INTO orders(order_time,customer_id, product_id,price,quantity)" +
-                " VALUES(?,?,?,?,?);";
+            const sql = "INSERT INTO orders(customer_id,product_id,price,quantity)" +
+                " VALUES(?,?,?,?);";
 
             connection.query(
                 sql,
-                [order_time, customer_id, product_id, price, quantity],
+                [customer_id, product_id, price, quantity],
                 function (sqlErr, result, fields) {
                     if (sqlErr) throw sqlErr;
 
@@ -35,17 +25,28 @@ module.exports = {
         });
     },
 
-    ordersList: function (req, res) {
-        pool.getConnection(function (connErr, connection) {
-            if (connErr) throw connErr; // not connected!
+    ordersList: async function (req, res) {
 
-            const sql = "SELECT * FROM orders";
+        const sql = "SELECT * FROM orders";
 
-            connection.query(sql, function (sqlErr, result, fields) {
-                if (sqlErr) throw sqlErr;
+        try {
+            const connection = await database.getConnection();
+            const result = await database.runQuery(connection, sql);
+            res.send(result);
+        } catch (err) {
+            console.log(err);
+        }
 
-                res.send(result);
-            });
-        });
+        //database.pool.getConnection(function (connErr, connection) {
+        //    if (connErr) throw connErr; // not connected!
+        //
+        //    const sql = "SELECT * FROM orders";
+        //
+        //    connection.query(sql, function (sqlErr, result, fields) {
+        //        if (sqlErr) throw sqlErr;
+        //
+        //        res.send(result);
+        //    });
+        //});
     }
 }
