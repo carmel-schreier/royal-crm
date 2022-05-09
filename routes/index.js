@@ -17,25 +17,12 @@ const ordersModule = require('../controllers/orders');
 //  productsModule.productsList(req, res);
 //});
 
-<<<<<<< HEAD
 router.get('/', function (req, res, next) {
   ordersModule.addOrder(123, 75, 400.56, 67);
   ordersModule.ordersList(req, res);
 });
-=======
-
-//router.get('/', function (req, res, next) {
-//  // res.send('hello again');
-//  ordersModule.addOrder(123, 75, 400.56, 67);
-//  ordersModule.ordersList(req, res);
-//});
->>>>>>> 2ab0831680e2510a36b152b9510fdff9b1845476
 
 module.exports = router;
 
 
-<<<<<<< HEAD
 //SET DEBUG=royal-crm:* & npm start
-=======
-//SET DEBUG=royal-crm:* & npm start
->>>>>>> 2ab0831680e2510a36b152b9510fdff9b1845476
