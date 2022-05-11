@@ -29,13 +29,13 @@ module.exports = {
         });
     },
 
-    customersList: async function (req, res) {
+    customersList: async function (req, res, next) {
         const sql = "SELECT customers.name,customers.phone,customers.email,countries.name AS country FROM customers INNER JOIN countries ON countries.id = customers.country_id ORDER BY customers.name;";
 
         try {
-            const connection = await database.getConnection();
-            const result = await database.runQuery(connection, sql);
-            res.send(result);
+            //const connection = await database.getConnection();
+            const result = await database.query(sql);
+            res.send(result[0]);
         } catch (err) {
             console.log(err);
         }

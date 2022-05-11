@@ -23,14 +23,14 @@ module.exports = {
         });
     },
 
-    productsList: async function (req, res) {
+    productsList: async function (req, res, next) {
 
         const sql = "SELECT * FROM products";
 
         try {
-            const connection = await database.getConnection();
-            const result = await database.runQuery(connection, sql);
-            res.send(result);
+            //const connection = await database.require();
+            const result = await database.query(sql);
+            res.send(result[0]);
         } catch (err) {
             console.log(err);
         }

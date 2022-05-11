@@ -11,6 +11,11 @@ const pool = mysql.createPool({
     queueLimit: 0
 });
 
+async function query(sql) {
+    const promisePool = pool.promise();
+    return [rows, field] = await promisePool.query(sql)
+}
+
 function getConnection() {
     return new Promise(function (resolve, reject) {
         pool.getConnection(function (connErr, connection) {
@@ -19,6 +24,8 @@ function getConnection() {
         })
     })
 }
+
+
 
 function runQuery(connection, sql) {
     return new Promise(function (resolve, reject) {
@@ -31,6 +38,7 @@ function runQuery(connection, sql) {
 
 module.exports = {
     pool,
-    getConnection,
-    runQuery,
+    //getConnection,
+    //runQuery,
+    query,
 }

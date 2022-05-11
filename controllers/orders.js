@@ -25,14 +25,14 @@ module.exports = {
         });
     },
 
-    ordersList: async function (req, res) {
+    ordersList: async function (req, res, next) {
 
         const sql = "SELECT * FROM orders";
 
         try {
-            const connection = await database.getConnection();
-            const result = await database.runQuery(connection, sql);
-            res.send(result);
+            //const connection = await database.getConnection();
+            const result = await database.query(sql);
+            res.send(result[0]);
         } catch (err) {
             console.log(err);
         }
