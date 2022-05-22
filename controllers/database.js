@@ -11,9 +11,9 @@ const pool = mysql.createPool({
     queueLimit: 0
 });
 
-async function query(sql) {
+async function query(sql, values) {
     const promisePool = pool.promise();
-    return [rows, field] = await promisePool.query(sql)
+    return [rows, field] = await promisePool.query(sql, values)
 }
 
 function getConnection() {

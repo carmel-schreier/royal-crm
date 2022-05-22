@@ -1,39 +1,32 @@
 const express = require('express');
 const router = express.Router();
-const customersModule = require('../controllers/customers');
-const productsModule = require('../controllers/products');
+const pm = require('../controllers/products');
 const ordersModule = require('../controllers/orders');
+const path = require('path');
 
+/* GET home page. */
+router.get('/', function (req, res, next) {
+    res.send('this is the home page. use /customers/home /products/home or /orders/home.')
+});
 
+router.get('/chat', function (req, res, next) {
+    const filePath = path.join(__dirname, '../client', 'chat.html');
+    res.sendFile(filePath);
+});
 
-router.get('/customers', customersModule.customersList);
+/* products */
+router.get('/products-home', function (req, res, next) {
+    const filePath = path.join(__dirname, '../client', 'products-home.html');
+    res.sendFile(filePath);
+})
+router.get('/products', pm.productsList);
+router.post('/products', pm.addProduct);
+router.get('/products/export', pm.exportProducts);
+// router.patch('/products', pm.editProduct);
+// router.delete('/products', pm.deleteProduct);
+// router.get('/products/search/:id', pm.searchProducts);
 
-router.get('/products', productsModule.productsList);
-
+/* orders */
 router.get('/orders', ordersModule.ordersList);
 
-
-//{
-//customersModule.addCustomer('Mr. Green', '+1(021) 145-2256', 'green@blueberry.com', 1);
-//customersModule.addCustomer('Brun Tech', '+2 251 966 522 456', 'info@brun-tech.com', 2);
-//customersModule.addCustomer('Bakala - Grocery Store', '+922 3 7070 111', 'bakala@gmail.com', 3);
-//customersModule.customersList(req, res);
-//});
-
-
-
-//{
-//  productsModule.addProduct('god product', 'A very good product', 50.67);
-//  productsModule.productsList(req, res);
-//});
-
-
-//{
-//  ordersModule.addOrder(123, 75, 400.56, 67);
-//  ordersModule.ordersList(req, res);
-//});
-
 module.exports = router;
-
-
-//SET DEBUG=royal-crm:* & npm start
