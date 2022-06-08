@@ -1,20 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const path = require('path');
-const cm = require('../controllers/products');
+const pm = require('../controllers/products');
+const fileMgmt = require('../shared/fileMgmt');
 
-// http://localhost:3000/customers/home
+// http://localhost:300/products
 
 router.get('/home', function (req, res, next) {
-    const filePath = path.join(__dirname, '../client', 'products-home.html');
+    const filePath = fileMgmt.getHtmlFilePath('products-home.html');
     res.sendFile(filePath);
 });
 
-router.get('/', cm.productsList);
-router.get('/details', cm.viewProductDetails);
-router.get('/export', cm.exportProducts);
-router.patch('/', cm.updateProduct);
-router.post('/', cm.addProduct);
-router.delete('/', cm.deleteProduct);
+router.get('/', pm.productsList);
+router.post('/', pm.addProduct);
+router.get('/export', pm.exportProducts);
+// router.patch('/products', pm.editProduct);
+// router.delete('/', pm.deleteProduct);
+// router.get('/search/:id', pm.searchProducts);
 
 module.exports = router;

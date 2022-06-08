@@ -1,50 +1,81 @@
+const joi = require('joi');
 const database = require('./database');
+const fileMgmt = require('../shared/fileMgmt');
 
 module.exports = {
-    addProduct: function (name, desc, price) {
-        if (!name || name.length === 0) {
-            throw ('ERROR: name is empty');
+    addProduct: async function (req, res, next) {
+        const reqBody = req.body;
+
+        const schema = joi.object({
+            name: joi.string().required().min(2).max(100),
+            description: joi.string().required().min(2).max(300),
+            price: joi.number().required(),
+        });
+
+        const {
+            error,
+            value
+        } = schema.validate(reqBody);
+
+        if (error) {
+            res.send(`error adding product: ${error}`);
+            return;
         }
 
-        database.pool.getConnection(function (connErr, connection) {
-            if (connErr) throw connErr; // not connected!
+        const sql = "INSERT INTO products(name, description, price)" +
+            " VALUES(?,?,?);";
 
-            const sql = "INSERT INTO products(name, description, price)" +
-                " VALUES(?,?,?);";
-
-            connection.query(
+        try {
+            const result = await database.query(
                 sql,
-                [name, desc, price],
-                function (sqlErr, result, fields) {
-                    if (sqlErr) throw sqlErr;
+                [
+                    reqBody.name,
+                    reqBody.description,
+                    reqBody.price,
+                ]
+            );
+        } catch (err) {
+            console.log(err);
+            return;
+        }
 
-                    console.log(result);
-                });
-        });
+        res.send(`${reqBody.name} added successfully`);
     },
 
     productsList: async function (req, res, next) {
-
-        const sql = "SELECT * FROM products";
+        const sql = "SELECT * FROM products ORDER BY name ASC;";
 
         try {
-            //const connection = await database.require();
             const result = await database.query(sql);
             res.send(result[0]);
         } catch (err) {
             console.log(err);
         }
+    },
 
-        // database.pool.getConnection(function (connErr, connection) {
-        //     if (connErr) throw connErr; // not connected!
-        //
-        //     const sql = "SELECT * FROM products";
-        //
-        //     connection.query(sql, function (sqlErr, result, fields) {
-        //         if (sqlErr) throw sqlErr;
-        //
-        //         res.send(result);
-        //     });
-        // });
-    }
+    // todo: search product by name
+    exportProducts: function (req, res, next) {
+        const sql = "SELECT name,description,price FROM products ORDER BY name ASC;";
+        fileMgmt.exportToFile(res, sql, 'products');
+    },
+
+    // todo: edit product details
+    editProduct: async function (req, res, next) {
+        // const sql = UPDATE
+        res.send('todo update products');
+    },
+
+    // todo: delete product
+    deleteProduct: async function (req, res, next) {
+        // const sql = DELETE
+        res.send('todo delete product');
+    },
+
+    // todo: search product by name
+    searchProducts: async function (req, res, next) {
+        // const sql = SELECT WHERE...
+        res.send('todo search products');
+    },
+
+    // todo: sort products by name...
 }

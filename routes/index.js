@@ -1,32 +1,34 @@
 const express = require('express');
 const router = express.Router();
-const pm = require('../controllers/products');
-const ordersModule = require('../controllers/orders');
-const path = require('path');
+const mwAuth = require('../middleware/auth');
+const auth = require('../controllers/auth');
+const fileMgmt = require('../shared/fileMgmt');
 
-/* GET home page. */
-router.get('/', function (req, res, next) {
+/* authentication */
+router.get('/signin', function (req, res, next) {
+    const filePath = fileMgmt.getHtmlFilePath('login.html');
+    res.sendFile(filePath);
+});
+
+router.post('/login', auth.login);
+
+router.get('/logout', mwAuth, function (req, res, next) {
+    return res
+        .clearCookie('access_token')
+        .status(200)
+        .send('Successfully logged out.');
+})
+
+/* home page */
+router.get('/', mwAuth, function (req, res, next) {
     res.send('this is the home page. use /customers/home /products/home or /orders/home.')
 });
 
-router.get('/chat', function (req, res, next) {
-    const filePath = path.join(__dirname, '../client', 'chat.html');
+/* chat */
+router.get('/chat', mwAuth, function (req, res, next) {
+    const filePath = fileMgmt.getHtmlFilePath('chat.html');
     res.sendFile(filePath);
 });
 
-/* products */
-router.get('/products-home', function (req, res, next) {
-    const filePath = path.join(__dirname, '../client', 'products-home.html');
-    res.sendFile(filePath);
-})
-router.get('/products', pm.productsList);
-router.post('/products', pm.addProduct);
-router.get('/products/export', pm.exportProducts);
-// router.patch('/products', pm.editProduct);
-// router.delete('/products', pm.deleteProduct);
-// router.get('/products/search/:id', pm.searchProducts);
-
-/* orders */
-router.get('/orders', ordersModule.ordersList);
 
 module.exports = router;
