@@ -1,0 +1,16 @@
+<h3>Login to your account</h3>
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <div class="mb-3">
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input #first formControlName="email" type="email" class="form-control" id="myemail" aria-describedby="emailHelp">
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="password" class="form-label">Password</label>
+    <input formControlName="password" type="password" class="form-control" id="mypassword">
+  </div>
+  <button [disabled]="!loginForm.valid" type="submit" class="btn btn-primary">Login</button>
+
+  <a class="nav-link" routerLink="/signup-component" routerLinkActive="active" ariaCurrentWhenActive="page">Create new
+    account</a>

@@ -1,1 +1,7 @@
-<p>home works!</p>
+<h1 [ngClass]="getTitleClass()">Home page</h1>
+<!-- <button class="btn btn-info" (click)="toggleTitleClass()">change color</button> -->
+<app-button *ngFor="let label of labels" [label]="label"></app-button>
+<!-- <app-button></app-button> -->
+<!-- <app-button></app-button> -->
+
+<!-- <div><input [type]="inputType"></div> -->

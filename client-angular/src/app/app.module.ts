@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,10 +12,22 @@ import { CustomersComponent } from './customers/customers.component';
 import { SignupComponent } from './signup/signup.component';
 import { ProductsComponent } from './products/products.component';
 import { OrdersComponent } from './orders/orders.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
-  declarations: [AppComponent, ButtonComponent, HeaderComponent, FooterComponent, HomeComponent, CustomersComponent, SignupComponent, ProductsComponent, OrdersComponent],
-  imports: [BrowserModule, AppRoutingModule],
+  declarations: [
+    AppComponent,
+    ButtonComponent,
+    HeaderComponent,
+    FooterComponent,
+    HomeComponent,
+    CustomersComponent,
+    SignupComponent,
+    ProductsComponent,
+    OrdersComponent,
+    LoginComponent,
+  ],
+  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
   providers: [],
   bootstrap: [AppComponent],
 })

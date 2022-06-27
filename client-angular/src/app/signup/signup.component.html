@@ -1,25 +1,27 @@
 <h3>Create new account</h3>
-<form>
+<form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
   <div class="mb-3">
     <label for="first-name" class="form-label">First name</label>
-    <input type="text" class="form-control" id="firstname" aria-describedby="emailHelp">
+    <input #first formControlName="firstName" type="text" class="form-control" id="firstname"
+      aria-describedby="emailHelp">
     <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
   </div>
   <div class="mb-3">
     <label for="last-name" class="form-label">Last name</label>
-    <input type="text" class="form-control" id="lastname" aria-describedby="emailHelp">
+    <input formControlName="lastName" type="text" class="form-control" id="lastname" aria-describedby="emailHelp">
   </div>
   <div class="mb-3">
     <label for="email" class="form-label">Email</label>
-    <input type="email" class="form-control" id="myemail" aria-describedby="emailHelp">
+    <input formControlName="email" type="email" class="form-control" id="myemail" aria-describedby="emailHelp">
   </div>
   <div class="mb-3">
     <label for="password" class="form-label">Password</label>
-    <input type="password" class="form-control" id="mypassword">
+    <input formControlName="password" type="password" class="form-control" id="mypassword">
   </div>
   <div class="mb-3">
     <label for="retype-password" class="form-label">Retype password</label>
-    <input type="text" class="form-control" id="retyppassword">
+    <input formControlName="retypePassword" type="password" class="form-control" id="retypepassword">
   </div>
-  <button type="submit" class="btn btn-primary">Create Account</button>
+  <button [disabled]="!signupForm.valid" type="submit" class="btn btn-primary">Create Account</button>
+  <!-- <div *ngIf="!showInvalidMassage()">Error: filed values are invalid. Please correct</div> -->
 </form>
