@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
+import { SessionService } from './services/session.service';
 //import { Component } from '.button.component';
 
 @Component({
@@ -6,9 +7,9 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
-  title = 'Welcome';
-  inputType = 'text';
-
-  labels = ['Customers', 'Products', 'Orders'];
+export class AppComponent implements AfterViewInit {
+  constructor(private sessionService: SessionService) {}
+  ngAfterViewInit(): void {
+    this.sessionService.redirectToFirstPage();
+  }
 }
