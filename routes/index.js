@@ -32,3 +32,5 @@ router.get('/chat', mwAuth, function (req, res, next) {
 
 
 module.exports = router;
+
+//SET DEBUG=royal-crm:* & npm start  
