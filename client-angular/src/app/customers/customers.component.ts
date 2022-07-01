@@ -1,6 +1,6 @@
 import { ApiService } from './../core/api.service';
-import { Component, OnInit } from '@angular/core';
-import { Customer } from '../shared/types';
+import { Component, NgModule, OnInit } from '@angular/core';
+import { Customer, FilePath } from '../shared/types';
 
 @Component({
   selector: 'app-customers',
@@ -9,6 +9,7 @@ import { Customer } from '../shared/types';
 })
 export class CustomersComponent implements OnInit {
   customers!: Array<Customer>;
+  searchFieldValue!: NgModule;
 
   constructor(private apiService: ApiService) {}
 
@@ -24,5 +25,27 @@ export class CustomersComponent implements OnInit {
         console.log('complete');
       },
     });
+  }
+
+  exportCustomersData() {
+    this.apiService.exportCustomers().subscribe({
+      next: (data: FilePath) => {
+        window.open(data.path);
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }
+
+  findCustomer(event: KeyboardEvent) {
+    // const value = event.target.value;
+
+    if (event.code === 'Enter' && event.target) {
+      // this.apiService.findCustomer().subscribe({
+      //     next: (data: Array<Customer>) => { this.customers = data },
+      //     error: (err) => console.error(err),
+      // })
+    }
   }
 }

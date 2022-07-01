@@ -1,1 +1,27 @@
-<p *ngFor="let customer of customers">{{customer.name}}</p>
+<h1>Customers (<samp>{{customers.length}}</samp>)</h1>
+<div>
+  //<input type="text" placeholder="Search by name, email, country">
+
+  <input [(ngModel)]="searchFieldValue" type="text" placeholder="Search by name, email, country">
+
+  <button (click)="exportCustomersData()">Export</button>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Country</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let customer of customers">
+      <td>{{customer.name}}</td>
+      <td>{{customer.email}}</td>
+      <td>{{customer.phone}}</td>
+      <td>{{customer.country_name}}</td>
+    </tr>
+  </tbody>
+</table>

@@ -4,4 +4,10 @@ export interface Customer {
   phone: string;
   email: string;
   country_id: number;
+  country_code: string;
+  country_name: string;
+}
+
+export interface FilePath {
+  path: string;
 }
