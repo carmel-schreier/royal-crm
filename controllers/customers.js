@@ -90,21 +90,10 @@ module.exports = {
     // todo: search in customers by parameter (name,email,country)
     // sql: SELECT WHERE
     findCustomer: async function (req, res, next) {
-        /*
-        1. [V] client send request using html form
-        2. the request is being send to a router 
-            -[V] router maps the request to a function (controller),
-            -[V] router uses READ -> GET API
-        3. controller function:
-            -[V] req.query -> parameters in the request from client
-            -[V] use joi to validate req.query param (string, required, min 2 characters)
-            -[V] error or success => manage error
-            -[V] if success => add parameters into query
-            -[V] send query to database and get results
-            -[V] return response to client, display to user
-        */
 
         const param = req.query;
+
+        console.log("param" + param)
 
         const schema = joi.object({
             search: joi.string().required().min(2)
@@ -121,6 +110,8 @@ module.exports = {
         }
 
         const searchQuery = `%${value.search}%`;
+
+        console.log(searchQuery)
 
         const sql = `SELECT customers.id, customers.name, customers.phone, customers.email,   
             countries.id AS country_id, countries.name AS country_name, countries.country_code  
