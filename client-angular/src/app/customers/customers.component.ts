@@ -1,6 +1,7 @@
 import { ApiService } from './../core/api.service';
 import { Component, NgModule, OnInit } from '@angular/core';
 import { Customer, FilePath } from '../shared/types';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-customers',
@@ -30,7 +31,8 @@ export class CustomersComponent implements OnInit {
   exportCustomersData() {
     this.apiService.exportCustomers().subscribe({
       next: (data: FilePath) => {
-        window.open(data.path);
+        console.log(`${environment.serverUrl}/${data.name}`);
+        window.open(`${environment.serverUrl}/${data.name}`);
       },
       error: (err) => {
         console.error(err);

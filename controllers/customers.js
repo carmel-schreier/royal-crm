@@ -72,7 +72,6 @@ module.exports = {
 
         try {
             const result = await database.query(sql);
-            res.set('Access-Control-Allow-Origin', '*');
             res.json(result[0]);
         } catch (err) {
             console.log(err);
@@ -138,7 +137,6 @@ module.exports = {
                     searchQuery,
                 ]
             );
-            res.set('Access-Control-Allow-Origin', '*');
             res.json(result[0]);
         } catch (err) {
             res.status(400).send(`search error: ${err}`);

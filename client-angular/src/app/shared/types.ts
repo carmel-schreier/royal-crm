@@ -9,5 +9,14 @@ export interface Customer {
 }
 
 export interface FilePath {
-  path: string;
+  name: string;
+}
+
+export type sortDirection = 'ASC' | 'DESC' | 'Default';
+export type sortColumn = 'name' | 'email' | 'country_name';
+
+export interface CustomerSort {
+  name: sortDirection;
+  email: sortDirection;
+  country_name: sortDirection;
 }
