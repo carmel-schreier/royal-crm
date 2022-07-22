@@ -9,8 +9,18 @@ import { Customer, FilePath } from '../shared/types';
 })
 export class ApiService {
   constructor(private http: HttpClient) {}
+
   getCustomerList(): Observable<Array<Customer>> {
     return this.http.get<Array<Customer>>(`${environment.serverUrl}/customers`);
+  }
+
+  getSortedCustomers(
+    colum: string,
+    direction: string
+  ): Observable<Array<Customer>> {
+    return this.http.get<Array<Customer>>(
+      `${environment.serverUrl}/customers?colum=${colum}&sort=${direction}`
+    );
   }
 
   exportCustomers(): Observable<FilePath> {

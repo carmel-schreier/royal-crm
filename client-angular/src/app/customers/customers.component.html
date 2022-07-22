@@ -1,21 +1,38 @@
-<h1>Customers (<span>{{customers.length}}</span>)</h1>
+<h1>Customers (<span>{{costumersTotal()}}</span>)</h1>
 <div>
 
 
   <input (keydown)="findCustomer($event)" [(ngModel)]="searchFieldValue" type="text"
     placeholder="Search by name, email, country">
-  <button>X</button>
+  <button (click)="clearSearch()">
+    <i class="bi-x-lg"></i>
+  </button>
 
-  <button (click)="exportCustomersData()" class="ms-3">Export</button>
+  <button (click)="exportCustomersData()" class="ms-3 "><i class="bi-download"></i>Export</button>
 </div>
 
 <table class="table">
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Phone</th>
-      <th>Country</th>
+      <th>
+        Name
+        <button (click)="sortCustomers('name')" class="btn btn-default">
+          <i [ngClass]="displaySort('name')"></i>
+        </button>
+      </th>
+      <th>
+        Email
+        <button (click)="sortCustomers('email')" class="btn btn-default">
+          <i [ngClass]="displaySort('email')"></i>
+        </button>
+      </th>
+      <th class="align-middle">Phone</th>
+      <th>
+        Country
+        <button (click)="sortCustomers('country_name')" class="btn btn-default">
+          <i [ngClass]="displaySort('country_name')"></i>
+        </button>
+      </th>
     </tr>
   </thead>
   <tbody>

@@ -93,8 +93,6 @@ module.exports = {
 
         const param = req.query;
 
-        console.log("param" + param)
-
         const schema = joi.object({
             search: joi.string().required().min(2)
         });
@@ -111,7 +109,6 @@ module.exports = {
 
         const searchQuery = `%${value.search}%`;
 
-        console.log(searchQuery)
 
         const sql = `SELECT customers.id, customers.name, customers.phone, customers.email,   
             countries.id AS country_id, countries.name AS country_name, countries.country_code  
